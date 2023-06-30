@@ -20,7 +20,7 @@ class Button extends Actor {
 
     if (!enabled) return;
 
-    if (cursor.x > x && cursor.x < x + w && cursor.y > y && cursor.y < y + h) {
+    if (mouseX > x - w*.5 && mouseX < x + w*.5 && mouseY > y - h*.5 && mouseY < y + h*.5) {
 
       state = ButtonState.HOVERED;
     } else {
@@ -51,13 +51,15 @@ class Button extends Actor {
 
     stroke(0);
     strokeWeight(1);
-    rect(x, y, w, h, 14);
+    rect(x - w*.5, y-h*.5, w, h, 14);
     fill(0);
     textAlign(CENTER, CENTER);
     textSize(14);
-    text(text, x + w*.5, y + h*.5);
+    text(text, x, y );
   }
 }
+
+// FIGURE OUT HOW TO USE MOUSEPRESSED WITHIN CLASS OR EQUIVALENT
 
 public enum ButtonState {
 

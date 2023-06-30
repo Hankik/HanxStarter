@@ -12,8 +12,7 @@ class Level {
     actors
       .addActor(c)
       .addActor(player)
-      .addActor(view)
-      .addActor( new Button(width*.5, height*.25, 80, 40, "Button") );
+      .addActor(view);
   }
 
   void update(){

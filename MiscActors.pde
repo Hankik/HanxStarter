@@ -12,8 +12,8 @@ class Cursor extends Actor {
   void update(){
     super.update();
     
-    x = mouseX;// + levels[currentLevel].view.x;
-    y = mouseY;
+    x = mouseX + levels[currentLevel].view.x;
+    y = mouseY + levels[currentLevel].view.y;
   }
   
   void draw(){

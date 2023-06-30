@@ -13,6 +13,13 @@ Level[] levels = new Level[LEVEL_AMOUNT];
 boolean isPaused = false;
 Cursor cursor;
 boolean leftMousePressed = false;
+PauseMenu pauseMenu;
+
+String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
+                     "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
+PImage[] roboWalk = new PImage[nameRoboWalk.length];
+PImage[] roboIdles = new PImage[2];
+PImage roboIdle;
 
 // color constants
 final color RED = #bf616a;
@@ -38,7 +45,18 @@ void setup() {
     levels[i] = new Level();
   }
   
+  roboIdle = loadImage("robot/idle.png");
+  roboIdle.resize(32, 40);
+  for (int i = 0; i < roboIdles.length; i++) roboIdles[i] = roboIdle;
+  for (int i = 0; i < roboWalk.length; i++){
+    roboWalk[i] = loadImage(nameRoboWalk[i]);
+    roboWalk[i].resize(32, 40);
+  }
+  println("Sprites loaded successfully\n");
+  
   cursor = new Cursor();
+  pauseMenu = new PauseMenu();
+  
 }
 
 void draw() {
@@ -61,13 +79,17 @@ void draw() {
   }
   levels[currentLevel].draw();
 
-  Keyboard.update();
-
-  popMatrix();
-    
+  Keyboard.update();    
+  
   cursor.update();
   cursor.draw();
+
+  popMatrix();
   
+  pauseMenu.update();
+    
+  fill(WHITE);
+  textAlign(CENTER, CENTER);
   textSize(12);
   text(elapsed, width/16, height/16);
 }

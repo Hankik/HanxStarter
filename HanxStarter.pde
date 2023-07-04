@@ -19,7 +19,7 @@ String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png"
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
 PImage[] roboWalk = new PImage[nameRoboWalk.length];
 PImage[] roboIdles = new PImage[2];
-PImage roboIdle;
+PImage roboIdle, testFloor;
 
 // color constants
 final color RED = #bf616a;
@@ -45,6 +45,8 @@ void setup() {
     levels[i] = new Level();
   }
   
+  testFloor = loadImage("testFloor.jpg");
+  testFloor.resize(640,640);
   roboIdle = loadImage("robot/idle.png");
   roboIdle.resize(32, 40);
   for (int i = 0; i < roboIdles.length; i++) roboIdles[i] = roboIdle;
@@ -69,8 +71,21 @@ void draw() {
   // fill canvas with black (aka clear canvas)
   background(BLACK);
   
+  
   pushMatrix();
   translate(-levels[currentLevel].view.x, -levels[currentLevel].view.y);
+  
+  
+  image(testFloor, 0, 0);
+  image(testFloor, -640, 0);
+  image(testFloor, 640, 0);
+  image(testFloor, -640, 0);
+  image(testFloor, -640, -640);
+  image(testFloor, 640, 640);
+  image(testFloor, 0, 640);
+  image(testFloor, 0, -640);
+  image(testFloor, 640, -640);
+  image(testFloor, -640, 640);
 
   // if you want game to continue in background, remove focused condition
   if (!isPaused && focused) {

@@ -36,5 +36,10 @@ class View extends Actor {
     super.draw();
   }
   
+  void setTarget(Actor target){
+  
+    this.target = target;
+  }
+  
   
 }

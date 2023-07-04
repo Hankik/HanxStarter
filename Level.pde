@@ -6,13 +6,20 @@ class Level {
   Controller c = new Controller(1, player);
   ActorPool actors = new ActorPool();
   View view = new View(c.pawn);
+  Actor test = new Actor();
 
   Level() {
+    
+    test.x = 300;
+    test.y = 300;
+    test.setSize(30,30);
+    test.addComponent( new Movement(test) );
     
     actors
       .addActor(c)
       .addActor(player)
-      .addActor(view);
+      .addActor(view)
+      .addActor(test); 
   }
 
   void update(){

@@ -125,6 +125,11 @@ class Actor {
   
   ArrayList<Action> actions = new ArrayList();
   
+  void addAction( Action a) {
+    actions.add(a);
+    println("Action '" + a.name + "' added to '" + name + "' sucessfully.");
+  }
+  
   HashMap<String, Component> components =  new HashMap();
   
   Actor addComponent(Component c){

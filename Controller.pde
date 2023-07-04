@@ -12,11 +12,10 @@ class Controller extends Actor {
   int id;
 
   Controller(int id, Actor pawn) {
+    name = "controller";
 
     this.id = id;
-    this.pawn = pawn;
-    
-    movement = (Movement) pawn.getComponent("movement");
+    setPawn(pawn);
   }
   
   void update(){
@@ -34,7 +33,16 @@ class Controller extends Actor {
   }
   
   void setPawn(Actor pawn){
-  
+    
+    if (this.pawn instanceof Player){
+    
+      ((Player) this.pawn).controller = null;
+    }
+    if (pawn instanceof Player) {
+    
+      ((Player) pawn).controller = this;
+    }
+    
     this.pawn = pawn;
     movement = (Movement) pawn.getComponent("movement");
   }
@@ -42,6 +50,21 @@ class Controller extends Actor {
   void draw(){}
 
   void keyPressed() {
+    if (key == TAB) {
+    
+      if (pawn == levels[currentLevel].test) addAction( 
+                                                new ActionSwitchPawn(
+                                                            this, 
+                                                            levels[currentLevel].player, 
+                                                            levels[currentLevel].view
+                                                ));
+      else addAction( 
+                                                new ActionSwitchPawn(
+                                                            this, 
+                                                            levels[currentLevel].test, 
+                                                            levels[currentLevel].view
+                                                ));
+    }
   }
 
   void keyReleased() {

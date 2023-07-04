@@ -3,6 +3,7 @@ class Player extends Actor {
   // fields
   Movement movement = new Movement(this);
   Combat combat = new Combat(this);
+  Controller controller;
   
   // animations
   Animation walk = new Animation(this, roboWalk);
@@ -13,6 +14,7 @@ class Player extends Actor {
   int currentAnim = WALK;
 
   Player(float xPos, float yPos) {
+    
     name = "player";
 
     this
@@ -24,15 +26,19 @@ class Player extends Actor {
     x = xPos;
     y = yPos;
     movement.speed = 100;
+    
+    walk.yOffset = -9;
+    idle.yOffset = -9;
   }
 
   void update() {
     animations[currentAnim].update();
     super.update();
     
+    // scuffed Animation State Machine NEEDS FIXED
     if (movement.direction.x < 0) walk.flipped = true;
     if (movement.direction.x > 0) walk.flipped = false;
-    if (!movement.isMoving || !keyPressed) currentAnim = IDLE;
+    if (!movement.isMoving || !keyPressed || controller == null) currentAnim = IDLE;
     else currentAnim = WALK;
   }
 

@@ -1,3 +1,4 @@
+// view acts like a camera into game environment
 class View extends Actor {
 
   // fields

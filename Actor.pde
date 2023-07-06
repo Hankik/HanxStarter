@@ -4,6 +4,13 @@ class Actor {
   
     setSize(32, 32);
   }
+  
+  Actor(float xPos, float yPos){
+  
+    x = xPos;
+    y = yPos;
+    setSize(32,32);
+  }
 
   // aabb fields
   float x, y, w, h;
@@ -127,7 +134,7 @@ class Actor {
   
   void addAction( Action a) {
     actions.add(a);
-    println("Action '" + a.name + "' added to '" + name + "' sucessfully.");
+    //println("Action '" + a.name + "' added to '" + name + "' sucessfully.");
   }
   
   HashMap<String, Component> components =  new HashMap();
@@ -146,12 +153,29 @@ class Actor {
     return null;
   }
   
+  void enableComponent(String name) {
+  
+    if (components.containsKey(name)) {
+    
+      components.get(name).enable();
+    }
+  }
+  
+  void disableComponent(String name) {
+  
+    if (components.containsKey(name)) {
+    
+      components.get(name).disable();
+    }
+  }
+    
+  
   void update(){
     handleAllConcerns();
     
-    for (HashMap.Entry<String, Component> entry : components.entrySet()) entry.getValue().update();
+    for (HashMap.Entry<String, Component> entry : components.entrySet()) if (entry.getValue().enabled) entry.getValue().update();
     
-    // actions need removed after calling perform
+    // actions get removed each frame
     for (int i = actions.size() - 1; i >= 0; i--){
       Action a = actions.get(i);
       actions.remove(i);
@@ -168,9 +192,7 @@ class Actor {
   
   void draw(){
   
-    for (HashMap.Entry<String, Component> entry : components.entrySet()) entry.getValue().draw();
-    
-    
+    for (HashMap.Entry<String, Component> entry : components.entrySet()) if (entry.getValue().enabled) entry.getValue().draw();
     
     if (!visible) return; 
     pushMatrix();
@@ -186,6 +208,16 @@ class Actor {
     textAlign(CENTER);
     textSize(12);
     //text("x: " + (int)x + " | y: " + (int)y, x, y + h*.75);
+    if (checkCollision(cursor)) {
+      
+      textAlign(LEFT);
+      int i = 0;
+      text("Actor '" + name + "' with components: ", x - 50, y + h + 5 + 10 * i);
+      for (HashMap.Entry<String, Component> entry : components.entrySet() ) {
+        i++;
+        text("    -" + entry.getValue().name + " | on = " + entry.getValue().enabled, x - 50, y + h + 5 + 10 * i);
+      }
+    }
     
     noStroke();
     popMatrix();
@@ -199,9 +231,18 @@ abstract class Component {
   Actor parent; // must be added in constructors
   String name = "";
   boolean visible = true;
+  boolean enabled = true;
   
   Component(){}
   
   abstract void update();
   abstract void draw();
+  
+  void disable(){
+    enabled = false;
+  }
+  
+  void enable(){
+    enabled = true;
+  }
 }

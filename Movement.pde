@@ -33,6 +33,13 @@ class Movement extends Component {
     
     direction.normalize();
     
+    parent.addAction( new ActionMove(parent, direction, speed) );
+  }
+  
+  void move( PVector direction) {
+  
+    direction.normalize();
     parent.actions.add( new ActionMove(parent, direction, speed) );
   }
+  
 }

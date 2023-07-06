@@ -41,7 +41,7 @@ class Button extends Actor {
 
     case HOVERED:
       fill(BLUE);
-      //if (leftMousePressed) fill(BLACK);
+      if (leftMousePressed) fill(BLACK);
       break;
 
     case PRESSED:

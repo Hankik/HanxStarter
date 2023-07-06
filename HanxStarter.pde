@@ -2,7 +2,7 @@
  Hank Kauffman
  6/16/23
  
- An empty project with boiler plate
+ A mostly empty project with boiler plate
  */
 
 // declare global fields
@@ -39,6 +39,8 @@ final color LIGHTRED = #FF8C8C;
 void setup() {
 
   size(640, 640);
+  
+  frameRate(144);
 
   // instantiate levels
   for (int i = 0; i < LEVEL_AMOUNT; i++) {
@@ -76,16 +78,16 @@ void draw() {
   translate(-levels[currentLevel].view.x, -levels[currentLevel].view.y);
   
   
-  image(testFloor, 0, 0);
-  image(testFloor, -640, 0);
-  image(testFloor, 640, 0);
-  image(testFloor, -640, 0);
-  image(testFloor, -640, -640);
-  image(testFloor, 640, 640);
-  image(testFloor, 0, 640);
-  image(testFloor, 0, -640);
-  image(testFloor, 640, -640);
-  image(testFloor, -640, 640);
+  //image(testFloor, 0, 0);
+  //image(testFloor, -640, 0);
+  //image(testFloor, 640, 0);
+  //image(testFloor, -640, 0);
+  //image(testFloor, -640, -640);
+  //image(testFloor, 640, 640);
+  //image(testFloor, 0, 640);
+  //image(testFloor, 0, -640);
+  //image(testFloor, 640, -640);
+  //image(testFloor, -640, 640);
 
   // if you want game to continue in background, remove focused condition
   if (!isPaused && focused) {
@@ -111,21 +113,21 @@ void draw() {
 
 void keyPressed() {
   Keyboard.handleKeyDown(keyCode);
-  levels[currentLevel].keyPressed();
+  if (!isPaused) levels[currentLevel].keyPressed();
 }
 
 void keyReleased() {
   Keyboard.handleKeyUp(keyCode);
-  levels[currentLevel].keyReleased();
+  if (!isPaused) levels[currentLevel].keyReleased();
   if (key == 'p') isPaused = !isPaused;
 }
 
 void mousePressed() {
   leftMousePressed = true;
-  levels[currentLevel].mousePressed();
+  if (!isPaused) levels[currentLevel].mousePressed();
 }
 
 void mouseReleased() {
   leftMousePressed = false;
-  levels[currentLevel].mousePressed();
+  if (!isPaused) levels[currentLevel].mousePressed();
 }

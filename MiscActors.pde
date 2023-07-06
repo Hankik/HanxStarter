@@ -1,12 +1,16 @@
 class Cursor extends Actor {
+  
+  // fields
+  Actor draggingTarget;
 
   Cursor(){
   
     name = "cursor";
     x = 1000;
     y = 1000;
-    //visible = false;
+    visible = false;
     setSize(24,24); // size of cursor hitbox
+    
   }
   
   void update(){
@@ -18,5 +22,11 @@ class Cursor extends Actor {
   
   void draw(){
     super.draw();
+  }
+  
+  void tryNewDraggingTarget() {
+  
+    if (draggingTarget != null) return;
+    
   }
 }

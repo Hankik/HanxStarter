@@ -17,53 +17,58 @@ class Controller extends Actor {
     this.id = id;
     setPawn(pawn);
   }
-  
-  void update(){
-    
+
+  void update() {
+
     if (movement != null && keyPressed) {
-    
+
       movement.move(
-                Keyboard.isDown(Keyboard.LEFT),
-                Keyboard.isDown(Keyboard.RIGHT),
-                Keyboard.isDown(Keyboard.UP),
-                Keyboard.isDown(Keyboard.DOWN)
-                );
+        Keyboard.isDown(Keyboard.LEFT),
+        Keyboard.isDown(Keyboard.RIGHT),
+        Keyboard.isDown(Keyboard.UP),
+        Keyboard.isDown(Keyboard.DOWN)
+        );
     }
-    
   }
-  
-  void setPawn(Actor pawn){
-    
-    if (this.pawn instanceof Player){
-    
+
+  void setPawn(Actor pawn) {
+
+    if (this.pawn instanceof Player) {
+
       ((Player) this.pawn).controller = null;
     }
     if (pawn instanceof Player) {
-    
+
       ((Player) pawn).controller = this;
     }
-    
+
     this.pawn = pawn;
     movement = (Movement) pawn.getComponent("movement");
   }
-  
-  void draw(){}
+
+  void draw() {
+  }
 
   void keyPressed() {
     if (key == TAB) {
-    
-      if (pawn == levels[currentLevel].test) addAction( 
-                                                new ActionSwitchPawn(
-                                                            this, 
-                                                            levels[currentLevel].player, 
-                                                            levels[currentLevel].view
-                                                ));
-      else addAction( 
-                                                new ActionSwitchPawn(
-                                                            this, 
-                                                            levels[currentLevel].test, 
-                                                            levels[currentLevel].view
-                                                ));
+
+      if (pawn == levels[currentLevel].test) {
+        
+        addAction(
+          new ActionSwitchPawn(
+            this,
+            levels[currentLevel].player,
+            levels[currentLevel].view
+          ));
+      } else {
+        
+        addAction(
+          new ActionSwitchPawn(
+            this,
+            levels[currentLevel].test,
+            levels[currentLevel].view
+          ));
+      }
     }
   }
 

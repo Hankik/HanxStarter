@@ -7,26 +7,33 @@ class Level {
   ActorPool actors = new ActorPool();
   View view = new View(c.pawn);
   Actor test = new Actor();
+  PVector location = null;
 
   Level() {
-    
-    test.x = 300;
-    test.y = 300;
-    test.setSize(30,30);
-    test.addComponent( new Movement(test) );
-    
+
+    test.x = 0;
+    test.y = 0;
+    test.setSize(30, 30);
+    test.addComponent( new AIMovement(test) );
+    test.addComponent( new MouseDraggable(test));
+    AIMovement ai = (AIMovement) test.getComponent("ai_movement");
+    ai.setTarget(player);
+
     actors
       .addActor(c)
       .addActor(player)
       .addActor(view)
-      .addActor(test); 
+      .addActor(test)
+      .addActor( new Curve() );
   }
 
-  void update(){
+  void update() {
+
+    
     actors.update();
   }
-  void draw(){
-  
+  void draw() {
+
     actors.draw();
   }
 

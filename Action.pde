@@ -33,6 +33,10 @@ class ActionSwitchPawn extends Action {
 
     name = "switch_pawn";
 
+    if (currentController.pawn.getComponent("ai_movement") != null) currentController.pawn.enableComponent("ai_movement");
+    if (newPawn.getComponent("movement") == null) newPawn.addComponent(new Movement(newPawn));
+    if (newPawn.getComponent("ai_movement") != null) newPawn.disableComponent("ai_movement");
+
     currentController.setPawn(newPawn);
     currentView.setTarget(newPawn);
   }

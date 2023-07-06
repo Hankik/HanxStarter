@@ -19,7 +19,8 @@ class Player extends Actor {
 
     this
       .addComponent(movement)
-      .addComponent(combat);
+      .addComponent(combat)
+      .addComponent(new MouseDraggable(this) );
 
     concerns.add("button");
 

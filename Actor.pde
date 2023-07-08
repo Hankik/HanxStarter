@@ -178,6 +178,7 @@ class Actor {
     // actions get removed each frame
     for (int i = actions.size() - 1; i >= 0; i--){
       Action a = actions.get(i);
+      a.execute();
       actions.remove(i);
     }
     
@@ -223,6 +224,10 @@ class Actor {
     popMatrix();
     
   }
+  
+  void mousePressed(){}
+  
+  void mouseReleased(){}
 }
 
 abstract class Component {

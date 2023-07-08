@@ -13,7 +13,7 @@ Level[] levels = new Level[LEVEL_AMOUNT];
 boolean isPaused = false;
 Cursor cursor;
 boolean leftMousePressed = false;
-PauseMenu pauseMenu;
+Menu menu;
 
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
@@ -59,7 +59,7 @@ void setup() {
   println("Sprites loaded successfully\n");
   
   cursor = new Cursor();
-  pauseMenu = new PauseMenu();
+  menu = new Menu();
   
 }
 
@@ -103,7 +103,7 @@ void draw() {
 
   popMatrix();
   
-  pauseMenu.update();
+  menu.update();
     
   fill(WHITE);
   textAlign(CENTER, CENTER);
@@ -125,9 +125,11 @@ void keyReleased() {
 void mousePressed() {
   leftMousePressed = true;
   if (!isPaused) levels[currentLevel].mousePressed();
+  menu.mousePressed();
 }
 
 void mouseReleased() {
   leftMousePressed = false;
   if (!isPaused) levels[currentLevel].mousePressed();
+  menu.mouseReleased();
 }

@@ -3,23 +3,47 @@ abstract class Action {
 
   // fields
   String name = "";
+
+  abstract void execute();
 }
 
 class ActionMove extends Action {
 
+  // fields
+  Actor target;
+  PVector direction;
+  float speed;
+
   ActionMove(Actor actor, PVector d, float speed) {
     name = "move";
-    actor.x += d.x * speed * dt;
-    actor.y += d.y * speed * dt;
+    target = actor;
+    direction = d;
+    this.speed = speed;
+  }
+
+  void execute() {
+
+    target.x += direction.x * speed * dt;
+    target.y += direction.y * speed * dt;
   }
 }
 
 class ActionDamage extends Action {
-  ActionDamage(Actor dealer, Actor recipient, float amount) {
+
+  // fields
+  Actor target;
+  float amount;
+
+
+  ActionDamage(Actor target, float amount) {
 
     name = "damage";
+    this.target = target;
+    this.amount = amount;
+  }
 
-    Combat recipientCombatComponent = (Combat) recipient.getComponent("combat");
+  void execute() {
+    Combat recipientCombatComponent = (Combat) target.getComponent("combat");
 
     if (recipientCombatComponent == null) return;
 
@@ -29,15 +53,24 @@ class ActionDamage extends Action {
 
 class ActionSwitchPawn extends Action {
 
-  ActionSwitchPawn(Controller currentController, Actor newPawn, View currentView) {
+  //fields
+  Controller controller;
+  Actor newPawn;
+  View view;
 
-    name = "switch_pawn";
+  ActionSwitchPawn(Controller controller, Actor newPawn, View view) {
 
-    if (currentController.pawn.getComponent("ai_movement") != null) currentController.pawn.enableComponent("ai_movement");
+    this.controller = controller;
+    this.newPawn = newPawn;
+    this.view = view;
+  }
+
+  void execute() {
+    if (controller.pawn.getComponent("ai_movement") != null) controller.pawn.enableComponent("ai_movement");
     if (newPawn.getComponent("movement") == null) newPawn.addComponent(new Movement(newPawn));
     if (newPawn.getComponent("ai_movement") != null) newPawn.disableComponent("ai_movement");
 
-    currentController.setPawn(newPawn);
-    currentView.setTarget(newPawn);
+    controller.setPawn(newPawn);
+    view.setTarget(newPawn);
   }
 }

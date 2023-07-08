@@ -19,6 +19,7 @@ class Controller extends Actor {
   }
 
   void update() {
+    super.update();
 
     if (movement != null && keyPressed) {
 

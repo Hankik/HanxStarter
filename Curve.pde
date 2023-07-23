@@ -81,8 +81,10 @@ class Curve extends Actor {
     line(pointA.x, pointA.y, pointB.x, pointB.y);
     line(pointB.x, pointB.y, pointC.x, pointC.y);
     line(pointC.x, pointC.y, pointD.x, pointD.y);
+    stroke(GREEN);
     line(lerpAB.x, lerpAB.y, lerpBC.x, lerpBC.y);
     line(lerpBC.x, lerpBC.y, lerpCD.x, lerpCD.y);
+    stroke(YELLOW);
     line(lerp2ABC.x, lerp2ABC.y, lerp2BCD.x, lerp2BCD.y);
     
     stroke(RED);

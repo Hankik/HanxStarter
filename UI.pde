@@ -2,14 +2,30 @@ class UI {
 
   // fields
   ActorPool uiActors = new ActorPool();
+  final int MENU = 0;
+  final int HUD = 1;
   
-  UI(){
+  UI(int id){
+    switch (id) {
+    
+      case MENU:
+      uiActors
+        .addActor( new Button(width*.5, height*.25, 200, 40, "PUNCH YOURSELF", new ActionDamage(levels[currentLevel].player, 2)) );
+      break;
+      case HUD:
+      uiActors
+        .addActor( new Curve() );
+      break;
+    }
     
   }
   
   void update(){
       uiActors.update();
-      uiActors.draw();
+ 
+  }
+  void draw() {
+       uiActors.draw();
   }
   
   void mousePressed(){

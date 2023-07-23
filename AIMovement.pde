@@ -34,7 +34,4 @@ class AIMovement extends Movement {
     this.target = target;
   }
   
-  
-  
-  
 }

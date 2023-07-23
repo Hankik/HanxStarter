@@ -1,8 +1,7 @@
 // the purpose of this class is to translate the mouse coordinates to the view's location
 class Cursor extends Actor {
-
-  // fields
-  Actor draggingTarget;
+  
+  boolean isUI = false;
 
   Cursor() {
 
@@ -15,9 +14,24 @@ class Cursor extends Actor {
 
   void update() {
     super.update();
+    
+    if (!mousePressed) globalMouseDraggingActor = null;
+    
+    if (isUI) {
+      x = mouseX;
+      y = mouseY;
+      return;
+      
+    }
 
     x = mouseX + levels[currentLevel].view.x;
     y = mouseY + levels[currentLevel].view.y;
+    
+    if (mousePressed && globalMouseDraggingActor == null) {
+    
+      
+    }
+    
   }
 
   void draw() {
@@ -26,20 +40,18 @@ class Cursor extends Actor {
 
   boolean isDraggingActor(Actor a) {
 
-    return a.equals(draggingTarget) && mousePressed;
+    return a.equals(globalMouseDraggingActor) && mousePressed;
   }
 
   void tryDraggingActor(Actor a) {
 
-    if (draggingTarget == null && globalMouseDraggingActor == null) draggingTarget = a;
+    if (globalMouseDraggingActor == null) globalMouseDraggingActor = a;
 
     if (isDraggingActor(a)) {
 
-      draggingTarget.x = x;
-      draggingTarget.y = y;
+      globalMouseDraggingActor.x = x;
+      globalMouseDraggingActor.y = y;
     }
-
-    if (!mousePressed) draggingTarget = null;
   }
 }
 

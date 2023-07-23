@@ -1,10 +1,15 @@
 // Components give their actors actions
-abstract class Action {
+abstract class Action implements Cloneable{
 
   // fields
   String name = "";
 
   abstract void execute();
+  
+  @Override
+   Action clone() throws CloneNotSupportedException {
+   return (Action) super.clone();
+   }
 }
 
 class ActionMove extends Action {

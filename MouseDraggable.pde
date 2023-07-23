@@ -13,9 +13,9 @@ class MouseDraggable extends Component {
   void update() {
 
     if (isUI) {
-      if (parent.checkCollision(mouseX, mouseY)) {
+      if (parent.checkCollision(uiCursor)) {
 
-        uiTryDraggingActor(parent);
+        uiCursor.tryDraggingActor(parent);
         return;
       }
     }
@@ -31,23 +31,22 @@ class MouseDraggable extends Component {
   }
 }
 
-
 Actor globalMouseDraggingActor;
 
-boolean isDraggingActor(Actor a) {
+//boolean isDraggingActor(Actor a) {
 
-  return a.equals(globalMouseDraggingActor) && mousePressed;
-}
+//  return a.equals(globalMouseDraggingActor) && mousePressed;
+//}
 
-void uiTryDraggingActor(Actor a) {
+//void uiTryDraggingActor(Actor a) {
 
-  if (globalMouseDraggingActor == null && cursor.draggingTarget == null ) globalMouseDraggingActor = a;
+//  if (globalMouseDraggingActor == null && cursor.draggingTarget == null ) globalMouseDraggingActor = a;
 
-  if (isDraggingActor(a)) {
+//  if (isDraggingActor(a)) {
 
-    globalMouseDraggingActor.x = mouseX;
-    globalMouseDraggingActor.y = mouseY;
-  }
+//    globalMouseDraggingActor.x = mouseX;
+//    globalMouseDraggingActor.y = mouseY;
+//  }
 
-  if (!mousePressed) globalMouseDraggingActor = null;
-}
+//  if (!mousePressed) globalMouseDraggingActor = null;
+//}

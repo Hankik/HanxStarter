@@ -12,12 +12,13 @@ int currentLevel = 0;
 Level[] levels = new Level[LEVEL_AMOUNT];
 boolean isPaused = false;
 Cursor cursor;
+Cursor uiCursor;
 boolean leftMousePressed = false;
 UI menu;
 UI hud;
 
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
-                     "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
+  "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
 PImage[] roboWalk = new PImage[nameRoboWalk.length];
 PImage[] roboIdles = new PImage[2];
 PImage roboIdle, testFloor;
@@ -41,35 +42,31 @@ void setup() {
 
   size(640, 640);
   fullScreen();
-  
-  frameRate(144);
+
+  frameRate(300);
 
   // instantiate levels
   for (int i = 0; i < LEVEL_AMOUNT; i++) {
     levels[i] = new Level();
   }
-  
+
   testFloor = loadImage("testFloor.jpg");
-  testFloor.resize(640,640);
+  testFloor.resize(640, 640);
   roboIdle = loadImage("robot/idle.png");
   roboIdle.resize(32, 40);
   for (int i = 0; i < roboIdles.length; i++) roboIdles[i] = roboIdle;
-  for (int i = 0; i < roboWalk.length; i++){
+  for (int i = 0; i < roboWalk.length; i++) {
     roboWalk[i] = loadImage(nameRoboWalk[i]);
     roboWalk[i].resize(32, 40);
   }
   println("Sprites loaded successfully\n");
-  
+
   cursor = new Cursor();
-  
-  menu = new UI();
-  menu.uiActors
-      .addActor( new Button(width*.5, height*.25, 80, 40, "BUTTON", new ActionDamage(levels[currentLevel].player, 2)) );
-  
-  hud = new UI();
-  hud.uiActors
-      .addActor( new Curve() );
-  
+  uiCursor = new Cursor();
+  uiCursor.isUI = true;
+
+  menu = new UI(0);
+  hud = new UI(1);
 }
 
 void draw() {
@@ -81,9 +78,10 @@ void draw() {
 
   // fill canvas with black (aka clear canvas)
   background(BLACK);
-  
-  
-  hud.update();
+
+
+  if (!isPaused) hud.update();
+  hud.draw();
   pushMatrix();
   translate(-levels[currentLevel].view.x, -levels[currentLevel].view.y);
 
@@ -94,15 +92,21 @@ void draw() {
   }
   levels[currentLevel].draw();
 
-  Keyboard.update();    
-  
+  Keyboard.update();
+
   cursor.update();
   cursor.draw();
 
   popMatrix();
-  
-  if (isPaused) menu.update();
-    
+
+  uiCursor.update();
+  uiCursor.draw();
+
+  if (isPaused) {
+    menu.update();
+    menu.draw();
+  }
+
   fill(WHITE);
   textAlign(CENTER, CENTER);
   textSize(12);

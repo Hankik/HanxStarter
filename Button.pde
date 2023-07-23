@@ -45,7 +45,12 @@ class Button extends Actor {
     
       break;
     case RELEASED:
-      target.addAction(purpose);
+      try {
+        target.addAction( purpose.clone() );
+      } catch (Exception e) {
+      }
+      state = ButtonState.IDLE;
+      
       break;
     }
   }

@@ -16,6 +16,7 @@ class Level {
     test.setSize(30, 30);
     test.addComponent( new AIMovement(test) );
     test.addComponent( new MouseDraggable(test));
+    ((MouseDraggable) test.getComponent("mouse_draggable")).isUI = false;
     AIMovement ai = (AIMovement) test.getComponent("ai_movement");
     ai.setTarget(player);
 
@@ -23,8 +24,7 @@ class Level {
       .addActor(c)
       .addActor(player)
       .addActor(view)
-      .addActor(test)
-      .addActor( new Curve() );
+      .addActor(test);
   }
 
   void update() {

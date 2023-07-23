@@ -1,22 +1,22 @@
 class Actor {
-  
-  Actor(){
-  
+
+  Actor() {
+
     setSize(32, 32);
   }
-  
-  Actor(float xPos, float yPos){
-  
+
+  Actor(float xPos, float yPos) {
+
     x = xPos;
     y = yPos;
-    setSize(32,32);
+    setSize(32, 32);
   }
 
   // aabb fields
   float x, y, w, h;
   float edgeL, edgeR, edgeT, edgeB;
   float halfW, halfH;
-  
+
   void setSize(float w, float h) {
     this.w = w;
     this.h = h;
@@ -37,6 +37,12 @@ class Actor {
     if (edgeB < other.edgeT) return false;
     if (edgeT > other.edgeB) return false;
     return true;
+  }
+
+  boolean checkCollision(float x, float y) {
+
+    if (x < edgeR && x > edgeL && y < edgeB && y > edgeT) return true;
+    return false;
   }
 
   //
@@ -100,104 +106,106 @@ class Actor {
 
     return result;
   }
-  
+
   // actor fields
   String name = "actor";
   boolean isDead = false;
-  
-  void kill(){
+
+  void kill() {
     isDead = true;
   }
-  
+
   // concerns
   ArrayList<String> concerns = new ArrayList();
-  
-  void handleConcernCollision(Actor a) {}  // implement in sub class
-  void handleConcern(Actor a) {}  // implement in sub class
-  
+
+  void handleConcernCollision(Actor a) {
+  }  // implement in sub class
+  void handleConcern(Actor a) {
+  }  // implement in sub class
+
   void handleAllConcerns() {
-    
-    for (String actorType: concerns) {
-    
+
+    for (String actorType : concerns) {
+
       // if global actor list contains an actor of actorType
-      if(!levels[currentLevel].actors.pool.containsKey(actorType)) continue;
-      
+      if (!levels[currentLevel].actors.pool.containsKey(actorType)) continue;
+
       for (Actor a : levels[currentLevel].actors.pool.get(actorType)) {
-      
+
         if (a.checkCollision(this)) handleConcernCollision(a);
         handleConcern(a);
       }
     }
   }
-  
+
   ArrayList<Action> actions = new ArrayList();
-  
+
   void addAction( Action a) {
     actions.add(a);
     //println("Action '" + a.name + "' added to '" + name + "' sucessfully.");
   }
-  
+
   HashMap<String, Component> components =  new HashMap();
-  
-  Actor addComponent(Component c){
-  
+
+  Actor addComponent(Component c) {
+
     components.put(c.name, c);
     println(name + " added component '" + c.name + "' successfully");
     return this; // returning self allows chaining addComponent() calls
   }
-  
-  Component getComponent(String name){
+
+  Component getComponent(String name) {
     if (components.containsKey(name)) return components.get(name);
-    
+
     println(this.name + " could not find component '" + name + "'");
     return null;
   }
-  
+
   void enableComponent(String name) {
-  
+
     if (components.containsKey(name)) {
-    
+
       components.get(name).enable();
     }
   }
-  
+
   void disableComponent(String name) {
-  
+
     if (components.containsKey(name)) {
-    
+
       components.get(name).disable();
     }
   }
-    
-  
-  void update(){
+
+
+  void update() {
     handleAllConcerns();
-    
-    for (HashMap.Entry<String, Component> entry : components.entrySet()) if (entry.getValue().enabled) entry.getValue().update();
-    
+
+    for (HashMap.Entry<String, Component> entry : components.entrySet()) if (entry.getValue().enabled)entry.getValue().update();
+
     // actions get removed each frame
-    for (int i = actions.size() - 1; i >= 0; i--){
+    for (int i = actions.size() - 1; i >= 0; i--) {
       Action a = actions.get(i);
       a.execute();
       actions.remove(i);
     }
-    
-    
+
+
     calculateAABB();
   }
-  
+
   // draw fields
-  boolean visible = true;  
+  boolean visible = true;
   color fill = WHITE;
   color stroke = RED;
-  
-  void draw(){
-  
+
+  void draw() {
+
     for (HashMap.Entry<String, Component> entry : components.entrySet()) if (entry.getValue().enabled) entry.getValue().draw();
-    
-    if (!visible) return; 
+
+    if (!visible) return;
     pushMatrix();
-    
+
     // draw debug collision area
     fill(fill);
     stroke(stroke);
@@ -210,7 +218,7 @@ class Actor {
     textSize(12);
     //text("x: " + (int)x + " | y: " + (int)y, x, y + h*.75);
     if (checkCollision(cursor)) {
-      
+
       textAlign(LEFT);
       int i = 0;
       text("Actor '" + name + "' with components: ", x - 50, y + h + 5 + 10 * i);
@@ -219,35 +227,38 @@ class Actor {
         text("    -" + entry.getValue().name + " | on = " + entry.getValue().enabled, x - 50, y + h + 5 + 10 * i);
       }
     }
-    
+
     noStroke();
     popMatrix();
-    
   }
-  
-  void mousePressed(){}
-  
-  void mouseReleased(){}
+
+  void mousePressed() {
+  }
+
+  void mouseReleased() {
+  }
 }
 
 abstract class Component {
-  
+
   // fields
   Actor parent; // must be added in constructors
   String name = "";
   boolean visible = true;
   boolean enabled = true;
-  
-  Component(){}
-  
+  boolean delay = false;
+
+  Component() {
+  }
+
   abstract void update();
   abstract void draw();
-  
-  void disable(){
+
+  void disable() {
     enabled = false;
   }
-  
-  void enable(){
+
+  void enable() {
     enabled = true;
   }
 }

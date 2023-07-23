@@ -13,7 +13,8 @@ Level[] levels = new Level[LEVEL_AMOUNT];
 boolean isPaused = false;
 Cursor cursor;
 boolean leftMousePressed = false;
-Menu menu;
+UI menu;
+UI hud;
 
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
                      "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
@@ -39,6 +40,7 @@ final color LIGHTRED = #FF8C8C;
 void setup() {
 
   size(640, 640);
+  fullScreen();
   
   frameRate(144);
 
@@ -59,7 +61,14 @@ void setup() {
   println("Sprites loaded successfully\n");
   
   cursor = new Cursor();
-  menu = new Menu();
+  
+  menu = new UI();
+  menu.uiActors
+      .addActor( new Button(width*.5, height*.25, 80, 40, "BUTTON", new ActionDamage(levels[currentLevel].player, 2)) );
+  
+  hud = new UI();
+  hud.uiActors
+      .addActor( new Curve() );
   
 }
 
@@ -74,20 +83,9 @@ void draw() {
   background(BLACK);
   
   
+  hud.update();
   pushMatrix();
   translate(-levels[currentLevel].view.x, -levels[currentLevel].view.y);
-  
-  
-  //image(testFloor, 0, 0);
-  //image(testFloor, -640, 0);
-  //image(testFloor, 640, 0);
-  //image(testFloor, -640, 0);
-  //image(testFloor, -640, -640);
-  //image(testFloor, 640, 640);
-  //image(testFloor, 0, 640);
-  //image(testFloor, 0, -640);
-  //image(testFloor, 640, -640);
-  //image(testFloor, -640, 640);
 
   // if you want game to continue in background, remove focused condition
   if (!isPaused && focused) {
@@ -103,7 +101,7 @@ void draw() {
 
   popMatrix();
   
-  menu.update();
+  if (isPaused) menu.update();
     
   fill(WHITE);
   textAlign(CENTER, CENTER);

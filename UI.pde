@@ -1,19 +1,15 @@
-class Menu {
+class UI {
 
   // fields
   ActorPool uiActors = new ActorPool();
   
-  Menu(){
-    uiActors
-      .addActor( new Button(width*.5, height*.25, 80, 40, "BUTTON", new ActionDamage(levels[currentLevel].player, 2)) );
+  UI(){
+    
   }
   
   void update(){
-  
-    if (isPaused){
       uiActors.update();
       uiActors.draw();
-    }
   }
   
   void mousePressed(){

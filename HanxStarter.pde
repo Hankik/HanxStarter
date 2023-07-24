@@ -16,6 +16,7 @@ Cursor uiCursor;
 boolean leftMousePressed = false;
 UI menu;
 UI hud;
+Lighting lighting;
 
 String[] nameRoboWalk = {"robot/walk0.png", "robot/walk1.png", "robot/walk2.png", "robot/walk3.png",
   "robot/walk4.png", "robot/walk5.png", "robot/walk6.png", "robot/walk7.png"};
@@ -67,6 +68,8 @@ void setup() {
 
   menu = new UI(0);
   hud = new UI(1);
+  
+  lighting = new Lighting(levels[currentLevel].c.pawn);
 }
 
 void draw() {
@@ -80,8 +83,6 @@ void draw() {
   background(BLACK);
 
 
-  if (!isPaused) hud.update();
-  hud.draw();
   pushMatrix();
   translate(-levels[currentLevel].view.x, -levels[currentLevel].view.y);
 
@@ -98,6 +99,11 @@ void draw() {
   cursor.draw();
 
   popMatrix();
+  
+  //lighting.update();
+  
+  if (!isPaused) hud.update();
+  hud.draw();
 
   uiCursor.update();
   uiCursor.draw();

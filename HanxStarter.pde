@@ -42,7 +42,6 @@ final color LIGHTRED = #FF8C8C;
 void setup() {
 
   size(640, 640);
-  fullScreen();
 
   frameRate(300);
 
@@ -100,7 +99,7 @@ void draw() {
 
   popMatrix();
   
-  //lighting.update();
+  lighting.update();
   
   if (!isPaused) hud.update();
   hud.draw();

@@ -4,6 +4,7 @@ class Player extends Actor {
   Movement movement = new Movement(this);
   Combat combat = new Combat(this);
   Controller controller;
+  LightSource light = new LightSource(this);
   
   // animations
   Animation walk = new Animation(this, roboWalk);
@@ -20,7 +21,8 @@ class Player extends Actor {
     this
       .addComponent(movement)
       .addComponent(combat)
-      .addComponent(new MouseDraggable(this) );
+      .addComponent(new MouseDraggable(this) )
+      .addComponent(light);
 
     concerns.add("button");
 
